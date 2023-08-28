@@ -6,8 +6,6 @@ import { useState } from "react";
 const ReadMore = ({ style, text }: any): JSX.Element => {
   const [readMore, setReadMore] = useState(true);
 
-  console.log(text, style);
-
   const handleReadMore = () => {
     setReadMore(!readMore);
   };

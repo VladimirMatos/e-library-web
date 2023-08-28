@@ -6,6 +6,15 @@ import {
   STATUS_CODE,
 } from "../constant/GlobalConst";
 import { BANNERS } from "../routes/bannerRoutes";
+import { IBanner } from "../interfaces/Banner";
+
+export const defaultBanner: IBanner = {
+  id: 1,
+  title: "",
+  subtitle: "",
+  imageUrl: "",
+  createAt: "",
+};
 
 const getAllBanners = async (): Promise<any> => {
   try {
