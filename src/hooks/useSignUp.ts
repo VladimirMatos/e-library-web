@@ -44,6 +44,22 @@ const useSignUp = (
         return;
       }
 
+      if (!user.firstName) {
+        setFormError({
+          ...inputError,
+          firstName: "First name should not be empty",
+        });
+        return;
+      }
+
+      if (!user.lastName) {
+        setFormError({
+          ...inputError,
+          lastName: "Last name should not be empty",
+        });
+        return;
+      }
+
       if (!user.email) {
         setFormError({ ...inputError, email: "Enter valid email address" });
         return;
@@ -61,22 +77,6 @@ const useSignUp = (
         setFormError({
           ...inputError,
           confirmPassword: "Confirmation password not be empty",
-        });
-        return;
-      }
-
-      if (!user.firstName) {
-        setFormError({
-          ...inputError,
-          firstName: "First name should not be empty",
-        });
-        return;
-      }
-
-      if (!user.lastName) {
-        setFormError({
-          ...inputError,
-          lastName: "Last name should not be empty",
         });
         return;
       }

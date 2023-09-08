@@ -1,14 +1,14 @@
-import TopBar from "../components/TopBar";
 import { useGetAllBanner } from "../hooks/useBanner";
 import Card from "../components/Card";
 import Carousel from "../components/Carousel";
 import CardList from "../components/CardList";
 import { IBook } from "../interfaces/Book";
+import { useAppSelector } from "../hooks/useRedux";
 
 const HomePage = (): JSX.Element => {
   const [banner] = useGetAllBanner();
+  const auth = useAppSelector((state) => state.auth);
 
-  const name = "SrPack";
   const images: IBook[] = [
     {
       id: 1,
@@ -117,44 +117,41 @@ const HomePage = (): JSX.Element => {
   };
 
   return (
-    <section className="bg-gray-900 min-h-screen overscroll-auto">
-      <TopBar />
-      <div className="min-h-screen m-auto w-4/6">
-        <Carousel
-          type="single"
-          banners={singleItems.banner}
-          showButtons={singleItems.showButtons}
-          autoPlay={singleItems.autoPlay}
-        />
-        <div className="pt-6">
-          <h1 className="text-white text-2xl pb-2 font-bold">
-            Welcome, {name}!
-          </h1>
-        </div>
-        <hr />
-        <div>
-          <h1 className="text-white text-2xl pt-2 font-bold">
-            Recommed for you!
-          </h1>
-          <Card />
-        </div>
-        <hr />
-        <div className="pb-2">
-          <h1 className="pt-5 text-2xl font-bold text-white">New & Hot</h1>
-          <Carousel
-            type="multi"
-            books={multiItems.book}
-            autoPlay={false}
-            multiItems={true}
-            showButtons={true}
-          />
-        </div>
-        <hr />
-        <div className="bg-gray-800">
-          <CardList />
-        </div>
+    <div className="min-h-screen m-auto w-4/6">
+      <Carousel
+        type="single"
+        banners={singleItems.banner}
+        showButtons={singleItems.showButtons}
+        autoPlay={singleItems.autoPlay}
+      />
+      <div className="pt-6">
+        <h1 className="text-white text-2xl pb-2 font-bold">
+          Welcome, {auth.firstName}!
+        </h1>
       </div>
-    </section>
+      <hr />
+      <div>
+        <h1 className="text-white text-2xl pt-2 font-bold">
+          Recommed for you!
+        </h1>
+        <Card />
+      </div>
+      <hr />
+      <div className="pb-2">
+        <h1 className="pt-5 text-2xl font-bold text-white">New & Hot</h1>
+        <Carousel
+          type="multi"
+          books={multiItems.book}
+          autoPlay={false}
+          multiItems={true}
+          showButtons={true}
+        />
+      </div>
+      <hr />
+      <div className="bg-gray-800">
+        <CardList />
+      </div>
+    </div>
   );
 };
 

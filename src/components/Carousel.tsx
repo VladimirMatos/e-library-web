@@ -6,7 +6,6 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { IBook } from "../interfaces/Book";
 import { IBanner } from "../interfaces/Banner";
 import { defaultBanner } from "../services/banner";
-import { defaultBook } from "../services/book";
 
 type CarouselMulti = {
   banners?: never;
@@ -121,7 +120,7 @@ const Carousel: FC<CAROUSEL> = ({
           </div>
         </button>
 
-        <ul className="flex w-5/6 mt-7 duration-700 ease-in-out ">
+        <ul className="flex w-11/12 mt-7">
           {selectedMultiImage.map((items) => (
             <li key={items.id} className="ml-2 ">
               <a>
@@ -151,7 +150,7 @@ const Carousel: FC<CAROUSEL> = ({
     <div className="flex">
       {prop.showButtons ? (
         <button
-          className="bg-white rounded-full w-8 h-7 relative top-48 m-2"
+          className="bg-white rounded-full w-8 h-7 relative top-56 m-2"
           onClick={previous}
         >
           <div className="relative left-2">
@@ -159,12 +158,12 @@ const Carousel: FC<CAROUSEL> = ({
           </div>
         </button>
       ) : null}
-      <div className="w-full">
+      <div className="w-11/12">
         <h1 className="pt-4 text-white text-2xl">{selectedImage?.title}</h1>
         <p className="text-white pt-2">{selectedImage?.subtitle}</p>
         <a className="" href="https://www.goodreads.com/genres/fantasy">
           <img
-            className="pt-4 rounded-lg object-cover h-72 w-full"
+            className="pt-4 rounded-lg object-cover h-96 w-full"
             src={selectedImage?.imageUrl}
             alt={selectedImage?.title}
           />
@@ -172,7 +171,7 @@ const Carousel: FC<CAROUSEL> = ({
       </div>
       {prop?.showButtons ? (
         <button
-          className="bg-white rounded-full w-8 h-7 m-2 relative top-48 "
+          className="bg-white rounded-full w-8 h-7 m-2 relative top-56 "
           onClick={next}
         >
           <div className="relative left-2">

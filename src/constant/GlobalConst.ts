@@ -12,8 +12,12 @@ export const API_CONFIG = {
 
 export const ROUTES = {
   login: "/",
-  home: "/Home",
-  singup: "/Signup",
+  login2: "/login",
+  home: "/home",
+  singup: "/signup",
+  newBook: "/new",
+  write: "/write",
+  myBooks: "/mybooks",
 };
 
 export const STATUS_CODE = {

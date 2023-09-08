@@ -5,10 +5,14 @@ import Login from "../services/Login";
 import { IUser } from "../interfaces/User";
 import { ROUTES } from "../constant/GlobalConst";
 import { useNavigate } from "react-router-dom";
+// import { useDispatch } from "react-redux";
+import { useAppDispatch } from "./useRedux";
+import { addAuth } from "../redux/authSlice";
 
 const useLogin = (
   login: ILogin
 ): [() => Promise<void>, boolean, IError | null, IUser | null] => {
+  const dispatch = useAppDispatch();
   const [error, setError] = useState<IError | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [formError, setFormError] = useState<ILogin | null>({
@@ -55,6 +59,7 @@ const useLogin = (
 
       if (data?.data?.message == "Login") {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        dispatch(addAuth(data.data.user));
         navigate(ROUTES.home);
         return;
       }

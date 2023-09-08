@@ -19,6 +19,8 @@ import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import useGetAllCategory from "../hooks/useCategory";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../constant/GlobalConst";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -61,6 +63,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const TopBar = (): JSX.Element => {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [categoryAnchor, setcategoryAnchor] = useState<null | HTMLElement>(
     null
@@ -72,8 +75,14 @@ const TopBar = (): JSX.Element => {
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleClickProfile = (value: string) => {
+    setAnchorEl(null);
+    if (value === "mybooks") navigate(ROUTES.myBooks);
   };
 
   // Category button handlers
@@ -92,6 +101,7 @@ const TopBar = (): JSX.Element => {
   };
   const handleCloseWrite = () => {
     setWriteAnchor(null);
+    navigate(ROUTES.newBook);
   };
 
   return (
@@ -197,7 +207,9 @@ const TopBar = (): JSX.Element => {
           <Avatar /> Profile
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>Add another account</MenuItem>
+        <MenuItem onClick={() => handleClickProfile("mybooks")}>
+          My Books
+        </MenuItem>
         <MenuItem onClick={handleClose}>Settings</MenuItem>
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
