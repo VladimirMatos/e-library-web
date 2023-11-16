@@ -49,8 +49,6 @@ const SignUp = (): JSX.Element => {
 
   const [roles] = useGetAllRoles();
 
-  console.log(inputs.roleId);
-
   const handleSubmit = (event: any) => {
     event.preventDefault();
     void handleSignUp();
@@ -63,8 +61,7 @@ const SignUp = (): JSX.Element => {
         </div>
         <form
           className="flex flex-col items-center justify-center content-center my-10"
-          onSubmit={handleSubmit}
-        >
+          onSubmit={handleSubmit}>
           <div className="flex flex-col mb-4 w-80">
             <label className="mb-2 text-white">FirstName</label>
             <input
@@ -155,14 +152,12 @@ const SignUp = (): JSX.Element => {
                 sx={{ backgroundColor: "white" }}
                 onChange={(SelectChangeEvent) =>
                   handleChange(SelectChangeEvent.target.value, "roleId")
-                }
-              >
+                }>
                 {roles.map((items) => (
                   <MenuItem
                     key={items.id}
                     sx={{ color: "black" }}
-                    value={items.id}
-                  >
+                    value={items.id}>
                     {items.name}
                   </MenuItem>
                 ))}
@@ -180,8 +175,7 @@ const SignUp = (): JSX.Element => {
               loading={loading}
               variant="contained"
               sx={{ minWidth: 200 }}
-              type="submit"
-            >
+              type="submit">
               Create
             </LoadingButton>
           </div>

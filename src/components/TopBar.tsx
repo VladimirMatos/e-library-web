@@ -21,6 +21,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import useGetAllCategory from "../hooks/useCategory";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../constant/GlobalConst";
+import { useGetBookByName } from "../hooks/useBook";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -57,7 +58,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     transition: theme.transitions.create("width"),
     width: "100%",
     [theme.breakpoints.up("md")]: {
-      width: "20ch",
+      width: "147ch",
     },
   },
 }));
@@ -70,6 +71,9 @@ const TopBar = (): JSX.Element => {
   );
   const [writeAnchor, setWriteAnchor] = useState<null | HTMLElement>(null);
   const [category] = useGetAllCategory();
+  const [searchtInput, setSearchtInput] = useState("");
+
+  const [data] = useGetBookByName(searchtInput);
 
   const open = Boolean(anchorEl);
   const handleClick = (event: MouseEvent<HTMLElement>) => {
@@ -94,6 +98,12 @@ const TopBar = (): JSX.Element => {
     setcategoryAnchor(null);
   };
 
+  const hadleClickSelectCategory = (event: any) => {
+    setcategoryAnchor(null);
+    const categoryId = event.currentTarget.value;
+    navigate(ROUTES.booksByCategory, { state: { id: categoryId } });
+  };
+
   // Write button handlers
   const openWrite = Boolean(writeAnchor);
   const handleClickWrite = (event: MouseEvent<HTMLElement>) => {
@@ -101,15 +111,38 @@ const TopBar = (): JSX.Element => {
   };
   const handleCloseWrite = () => {
     setWriteAnchor(null);
+  };
+
+  const handleClickSelectWrite = () => {
+    setWriteAnchor(null);
     navigate(ROUTES.newBook);
   };
 
+  const handleClickLogo = () => {
+    navigate(ROUTES.home);
+  };
+
+  const handleChangeSearch = (event: any) => {
+    setSearchtInput(event.value);
+  };
+  console.log(searchtInput, data);
+
+  const handleClickSearch = (value: number) => {
+    console.log(value);
+    setSearchtInput("");
+    navigate(ROUTES.book, { state: { id: value } });
+  };
+
   return (
-    <>
+    <section className="">
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static" sx={{ backgroundColor: "rgb(31 41 55)" }}>
           <Toolbar>
-            <Typography variant="h6" noWrap component="div">
+            <Typography
+              onClick={handleClickLogo}
+              variant="h6"
+              noWrap
+              component="div">
               E-Library
             </Typography>
             <Button
@@ -124,17 +157,19 @@ const TopBar = (): JSX.Element => {
                 paddingLeft: "2em",
                 paddingTop: "10px",
                 color: "white",
-              }}
-            >
+              }}>
               Category
             </Button>
-            <Search sx={{ flexGrow: 1 }}>
+            <Search
+              sx={{ flexGrow: 1 }}
+              onChange={({ target }) => handleChangeSearch(target)}>
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
               <StyledInputBase
                 placeholder="Search…"
                 inputProps={{ "aria-label": "search" }}
+                value={!data ? "" : searchtInput}
               />
             </Search>
             <Button
@@ -149,8 +184,7 @@ const TopBar = (): JSX.Element => {
                 paddingLeft: "1em",
                 paddingTop: "10px",
                 color: "white",
-              }}
-            >
+              }}>
               Write
             </Button>
             <Tooltip title="Account settings">
@@ -160,14 +194,28 @@ const TopBar = (): JSX.Element => {
                 sx={{ ml: 2 }}
                 aria-controls={open ? "account-menu" : undefined}
                 aria-haspopup="true"
-                aria-expanded={open ? "true" : undefined}
-              >
+                aria-expanded={open ? "true" : undefined}>
                 <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
               </IconButton>
             </Tooltip>
           </Toolbar>
         </AppBar>
+        {data && (
+          <div className="bg-white left-80 w-[72%] absolute cursor-pointer z-10">
+            {data.map((items) => {
+              return (
+                <div
+                  key={items.id}
+                  onClick={() => handleClickSearch(items.id)}
+                  className=" m-2 hover:bg-gray-100">
+                  {items.title}
+                </div>
+              );
+            })}
+          </div>
+        )}
       </Box>
+
       <Menu
         anchorEl={anchorEl}
         id="account-menu"
@@ -201,8 +249,7 @@ const TopBar = (): JSX.Element => {
           },
         }}
         transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-      >
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}>
         <MenuItem onClick={handleClose}>
           <Avatar /> Profile
         </MenuItem>
@@ -227,10 +274,12 @@ const TopBar = (): JSX.Element => {
         anchorEl={categoryAnchor}
         open={openCategory}
         onClose={handleCloseCategory}
-        TransitionComponent={Fade}
-      >
+        TransitionComponent={Fade}>
         {category.map((items) => (
-          <MenuItem onClick={handleCloseCategory} key={items.id}>
+          <MenuItem
+            value={items.id}
+            onClick={hadleClickSelectCategory}
+            key={items.id}>
             {items.name}
           </MenuItem>
         ))}
@@ -244,11 +293,10 @@ const TopBar = (): JSX.Element => {
         anchorEl={writeAnchor}
         open={openWrite}
         onClose={handleCloseWrite}
-        TransitionComponent={Fade}
-      >
-        <MenuItem onClick={handleCloseWrite}>Create a new story</MenuItem>
+        TransitionComponent={Fade}>
+        <MenuItem onClick={handleClickSelectWrite}>Create a new story</MenuItem>
       </Menu>
-    </>
+    </section>
   );
 };
 

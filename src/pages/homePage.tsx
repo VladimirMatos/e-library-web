@@ -1,116 +1,45 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useGetAllBanner } from "../hooks/useBanner";
 import Card from "../components/Card";
 import Carousel from "../components/Carousel";
 import CardList from "../components/CardList";
-import { IBook } from "../interfaces/Book";
+import { IBook, ICreateBook } from "../interfaces/Book";
 import { useAppSelector } from "../hooks/useRedux";
+import { useGetAllBook, useGetBookByCategory } from "../hooks/useBook";
+import { arrayShuffle } from "../helper/arrayFunctions";
+
+export type IBookTest = {
+  id: number;
+  title: string;
+  description: string;
+  imageUrl: string;
+};
 
 const HomePage = (): JSX.Element => {
   const [banner] = useGetAllBanner();
   const auth = useAppSelector((state) => state.auth);
+  const [books] = useGetAllBook();
+  const shuffledBookArray: IBook[] = arrayShuffle(books);
+  const bookShufled = shuffledBookArray.slice(0, 15)[0];
+  const bookShufledMulti = shuffledBookArray.slice(0, 15);
 
-  const images: IBook[] = [
-    {
-      id: 1,
-      title: "accusamus beatae ad facilis cum similique qui sunt",
-      description: "accusamus beatae ad facilis cum similique qui sunt",
-      imageUrl: "https://via.placeholder.com/600/92c952",
-    },
-    {
-      id: 2,
-      title: "reprehenderit est deserunt velit ipsam",
-      description: "reprehenderit est deserunt velit ipsam",
-      imageUrl: "https://via.placeholder.com/600/771796",
-    },
-    {
-      id: 3,
-      title: "officia porro iure quia iusto qui ipsa ut modi",
-      description: "officia porro iure quia iusto qui ipsa ut modi",
-      imageUrl: "https://via.placeholder.com/600/24f355",
-    },
-    {
-      id: 4,
-      title: "culpa odio esse rerum omnis laboriosam voluptate repudiandae",
-      description:
-        "culpa odio esse rerum omnis laboriosam voluptate repudiandae",
-      imageUrl: "https://via.placeholder.com/600/d32776",
-    },
-    {
-      id: 5,
-      title: "natus nisi omnis corporis facere molestiae rerum in",
-      description: "natus nisi omnis corporis facere molestiae rerum in",
-      imageUrl: "https://via.placeholder.com/600/f66b97",
-    },
-    {
-      id: 6,
-      title: "accusamus ea aliquid et amet sequi nemo",
-      description: "accusamus ea aliquid et amet sequi nemo",
-      imageUrl: "https://via.placeholder.com/600/56a8c2",
-    },
-    {
-      id: 7,
-      title: "officia delectus consequatur vero aut veniam explicabo molestias",
-      description:
-        "officia delectus consequatur vero aut veniam explicabo molestias",
-      imageUrl: "https://via.placeholder.com/600/b0f7cc",
-    },
-    {
-      id: 8,
-      title: "aut porro officiis laborum odit ea laudantium corporis",
-      description: "aut porro officiis laborum odit ea laudantium corporis",
-      imageUrl: "https://via.placeholder.com/600/54176f",
-    },
-    {
-      id: 9,
-      title: "qui eius qui autem sed",
-      description: "qui eius qui autem sed",
-      imageUrl: "https://via.placeholder.com/600/51aa97",
-    },
-    {
-      id: 10,
-      title: "beatae et provident et ut vel",
-      description: "beatae et provident et ut vel",
-      imageUrl: "https://via.placeholder.com/600/810b14",
-    },
-    {
-      id: 11,
-      title: "accusamus ea aliquid et amet sequi nemo",
-      description: "accusamus ea aliquid et amet sequi nemo",
-      imageUrl: "https://via.placeholder.com/600/56a8c2",
-    },
-    {
-      id: 12,
-      title: "officia delectus consequatur vero aut veniam explicabo molestias",
-      description:
-        "officia delectus consequatur vero aut veniam explicabo molestias",
-      imageUrl: "https://via.placeholder.com/600/b0f7cc",
-    },
-    {
-      id: 13,
-      title: "aut porro officiis laborum odit ea laudantium corporis",
-      description: "aut porro officiis laborum odit ea laudantium corporis",
-      imageUrl: "https://via.placeholder.com/600/54176f",
-    },
-    {
-      id: 14,
-      title: "qui eius qui autem sed",
-      description: "qui eius qui autem sed",
-      imageUrl: "https://via.placeholder.com/600/51aa97",
-    },
-    {
-      id: 15,
-      title: "beatae et provident et ut vel",
-      description: "beatae et provident et ut vel",
-      imageUrl: "https://via.placeholder.com/600/810b14",
-    },
-  ];
+  const [booksCategory] = useGetBookByCategory([1, 2, 3]);
+
+  const defaultCard = {
+    imageUrl: "",
+    description: "",
+    title: "",
+  };
+
+  const bookCheck = bookShufled ? bookShufled : defaultCard;
+
   const singleItems = {
     banner,
     showButtons: true,
     autoPlay: true,
   };
   const multiItems = {
-    book: images,
+    book: bookShufledMulti,
     showButtons: true,
     autoPlay: false,
     multiItems: true,
@@ -134,7 +63,12 @@ const HomePage = (): JSX.Element => {
         <h1 className="text-white text-2xl pt-2 font-bold">
           Recommed for you!
         </h1>
-        <Card />
+        <Card
+          image={bookCheck.imageUrl}
+          title={bookCheck.title}
+          description={bookCheck.description}
+          type={false}
+        />
       </div>
       <hr />
       <div className="pb-2">
@@ -149,7 +83,7 @@ const HomePage = (): JSX.Element => {
       </div>
       <hr />
       <div className="bg-gray-800">
-        <CardList />
+        <CardList book={booksCategory} />
       </div>
     </div>
   );

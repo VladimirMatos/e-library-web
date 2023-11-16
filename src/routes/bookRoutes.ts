@@ -1,4 +1,5 @@
 export const Book = {
-  create: "/book",
+  create: "/book/",
   getByAuthor: "/book/author/",
+  getByCategory: "/book/category/",
 };

@@ -9,13 +9,13 @@ const signUp = async (user: IUser): Promise<any> => {
 
   const petision = API_CONFIG.URL + USER.path;
   try {
+    
     const { data, status } = await axios.post(petision, user, {
       headers: {
         "Content-Type": "application/json",
       },
     });
 
-    console.log({ data, status });
 
     return { data, status };
   } catch (error: any) {

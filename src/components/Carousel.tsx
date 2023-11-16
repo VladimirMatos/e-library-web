@@ -7,6 +7,7 @@ import { IBook } from "../interfaces/Book";
 import { IBanner } from "../interfaces/Banner";
 import { defaultBanner } from "../services/banner";
 
+
 type CarouselMulti = {
   banners?: never;
   books: IBook[];
@@ -122,13 +123,13 @@ const Carousel: FC<CAROUSEL> = ({
 
         <ul className="flex w-11/12 mt-7">
           {selectedMultiImage.map((items) => (
-            <li key={items.id} className="ml-2 ">
+            <li key={items.id} className="ml-2 w-full ">
               <a>
-                <img src={items.imageUrl} alt={items.title} className="h-64" />
+                <img src={items.imageUrl} alt={items.title} className="h-64 w-96" />
               </a>
               <div>
-                <button className="bg-gray-500 rounded-full mt-2 w-12 h-4 text-xs text-white">
-                  category
+                <button className="bg-gray-500 rounded-full mt-2 w-20 h-4 text-xs text-white">
+                  {items.category.name}
                 </button>
               </div>
             </li>
@@ -161,13 +162,11 @@ const Carousel: FC<CAROUSEL> = ({
       <div className="w-11/12">
         <h1 className="pt-4 text-white text-2xl">{selectedImage?.title}</h1>
         <p className="text-white pt-2">{selectedImage?.subtitle}</p>
-        <a className="" href="https://www.goodreads.com/genres/fantasy">
           <img
             className="pt-4 rounded-lg object-cover h-96 w-full"
             src={selectedImage?.imageUrl}
             alt={selectedImage?.title}
           />
-        </a>
       </div>
       {prop?.showButtons ? (
         <button

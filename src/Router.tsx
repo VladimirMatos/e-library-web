@@ -9,6 +9,8 @@ import { useAppSelector } from "./hooks/useRedux";
 import NotFoundPage from "./pages/notFoundPage";
 import WriteBookPage from "./pages/writeBookPage";
 import MyBookPage from "./pages/myBooksPage";
+import BooksForCategoryPage from "./pages/booksForCategoryPage";
+import ReadBookPage from "./pages/readBookPage";
 
 export const Router = (): JSX.Element => {
   const path = useLocation().pathname.toLowerCase();
@@ -23,6 +25,8 @@ export const Router = (): JSX.Element => {
       ROUTES.singup,
       ROUTES.write,
       ROUTES.myBooks,
+      ROUTES.booksByCategory,
+      ROUTES.book,
     ].includes(path)
   ) {
     return (
@@ -43,13 +47,25 @@ export const Router = (): JSX.Element => {
     );
   }
   if (auth.email) {
-    if ([ROUTES.home, ROUTES.myBooks].includes(path)) {
+    if (
+      [
+        ROUTES.home,
+        ROUTES.myBooks,
+        ROUTES.booksByCategory,
+        ROUTES.book,
+      ].includes(path)
+    ) {
       return (
         <section className="bg-gray-900 min-h-screen overscroll-auto">
           <TopBar />
           <Routes>
             <Route path={ROUTES.home} element={<HomePage />} />
             <Route path={ROUTES.myBooks} element={<MyBookPage />} />
+            <Route
+              path={ROUTES.booksByCategory}
+              element={<BooksForCategoryPage />}
+            />
+            <Route path={ROUTES.book} element={<ReadBookPage />} />
           </Routes>
         </section>
       );

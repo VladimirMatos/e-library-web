@@ -6,9 +6,10 @@ import { FC, useState } from "react";
 type READMORE = {
   style: string;
   text: string;
+  active: boolean;
 };
 
-const ReadMore: FC<READMORE> = ({ style, text }) => {
+const ReadMore: FC<READMORE> = ({ style, text, active }) => {
   const [readMore, setReadMore] = useState(true);
 
   const handleReadMore = () => {
@@ -19,13 +20,20 @@ const ReadMore: FC<READMORE> = ({ style, text }) => {
       <p className={`${style} pl-3 pt-2 text-white `}>
         {readMore ? text?.slice(0, 250) + " ..." : text}
       </p>
-      <Button
-        sx={{ paddingLeft: "0.8rem", fontSize: "0.70rem", height: "0.8rem" }}
-        onClick={handleReadMore}
-        variant="text"
-      >
-        {readMore ? "Read More" : "Read Less"}
-      </Button>
+      {active ? (
+        <Button
+          sx={{
+            paddingLeft: "0.8rem",
+            fontSize: "0.70rem",
+            height: "0.8rem",
+          }}
+          onClick={handleReadMore}
+          variant="text">
+          {readMore ? "Read More" : "Read Less"}
+        </Button>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

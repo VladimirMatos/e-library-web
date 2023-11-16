@@ -67,8 +67,6 @@ const useLogin = (
         setError(message);
       }
     } catch (error: any) {
-      console.log(error);
-
       setError(error);
     } finally {
       setLoading(false);

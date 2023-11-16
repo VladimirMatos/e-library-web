@@ -13,6 +13,15 @@ export interface ICreateBook {
   };
 }
 
+export interface IUpdateBook {
+  title: string;
+  description: string;
+  image: {
+    base64: string;
+    name: string;
+  };
+}
+
 export interface IBook {
   id: number;
   title: string;
@@ -20,11 +29,18 @@ export interface IBook {
   totalPage: number;
   imageUrl: string;
   category: ICategory;
-  bookPage: {
-    id: number;
-    page: number;
-    text: string;
-  };
+  bookPage: [
+    {
+      id: number;
+      page: number;
+      text: string;
+    }
+  ];
   author: IUser;
   createAt: string;
 }
+
+export type IBookByCategory = {
+  books: IBook[];
+  category: string;
+};

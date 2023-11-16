@@ -18,6 +18,8 @@ export const ROUTES = {
   newBook: "/new",
   write: "/write",
   myBooks: "/mybooks",
+  booksByCategory: "/booksbycategory",
+  book: "/book",
 };
 
 export const STATUS_CODE = {
